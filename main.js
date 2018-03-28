@@ -1,6 +1,7 @@
 const searchUrl = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/search?q="
 const trackUrl = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/track/"
 const albumUrl = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/album/"
+const artistUrl = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/"
 
 Vue.component('search-form', {
     data() {
@@ -150,6 +151,32 @@ Vue.component('album-item', {
                 this.album = data;
 
                 console.log(this.track)
+
+            });
+
+    }
+});
+
+Vue.component('artist-item', {
+    template: `<div>
+                   {{artist}}
+
+               </div>`,
+    data() {
+        return {
+            id : document.location.search.split('=')[1],
+            artist : ''
+        }
+    },
+    mounted() {
+        const fullSearch = artistUrl + this.id;
+        console.log(fullSearch)
+        fetch(fullSearch)
+            .then(data => data.json())
+            .then(data => {
+                this.artist = data;
+
+                console.log(this.artist)
 
             });
 
