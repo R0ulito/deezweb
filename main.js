@@ -42,18 +42,18 @@ Vue.component('navbar', {
     template: `<nav class="nav navbar-inverse">
         <ul class="nav navbar-nav">
             <li><a href="#">Deezweb</a></li>
-            <li><a href="">Recherche</a></li>
-            <li><a href="">Mes Favoris</a></li>
+            <li><a href="index.html">Recherche</a></li>
+            <li><a href="favorites.html">Mes Favoris</a></li>
         </ul>
     </nav>`
 })
 
 Vue.component('track-item', {
-    template: ` <div v-if="track">
+    template: ` <div v-if="track" class="col-xs-12">
                     <div class="col-xs-12 row">
-                        <h2 class="col-xs-12">Titre: {{track.title}}</h2>
+                        <h2>Titre: {{track.title}}</h2>
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-xs-12 row">
                         <div class="col-xs-6">
                             <img :src="track.album.cover_small" alt=""> Album : {{track.album.title}}
                         </div>
@@ -64,6 +64,11 @@ Vue.component('track-item', {
                     <div class="row col-xs-12">
                         <h2>{{track.title}}</h2>
                         <div>Durée: {{track.duration | secToMin}} / Date de parution: {{track.release_date | dateFilter }}</div>
+                    </div>
+                    <div class="row col-xs-12">
+                        <audio controls>
+                            <source :src="track.preview" type="audio/mpeg">                
+                        </audio>
                     </div>        
                 </div>
     `,

@@ -12,9 +12,11 @@
 
 <body>
 
-    <div id="app" v-cloak class="container">
-        <navbar></navbar>        
-        <search-form></search-form>
+    <div id="app" v-cloak class="container-fluid">
+        <navbar></navbar>
+        <div class="container">
+            <search-form></search-form>
+        </div>
         <div v-if="queryResult.length > 0" class="row mt50">
             <div v-for="track in queryResult" class="col-md-4 col-sm-6 result-item valign-item">
                 <ul class="list-group" style="margin-bottom:0">
@@ -23,15 +25,26 @@
                     <li class="list-group-item">{{track.artist.name}} / {{track.album.title}}</li>
                     <li class="list-group-item">{{track.duration | secToMin}}</li>
                 </ul>
-                    <div>
+                <div>
+                    <a :href="'track.html?id='+track.id">
                         <button class="col-md-4 col-sm-12 btn btn-success" @click="listenSong(track.preview)">
-                            <a :href="'track.html?id='+track.id">Écouter un <br> extrait</a>
+                            Écouter un <br> extrait
                         </button>
-                        <button class="col-md-4 col-sm-12 btn btn-info" @click="viewAlbum(track.album.id)">Consulter l'album</button>
-                        <button class="col-md-4 col-sm-12 btn" @click="viewArtist(track.artist.id)">Consulter la fiche <br>de l'artiste</button>
-                    </div>
+                    </a>
+                    <a :href="'album.html?id='+ track.album.id">
+                        <button class="col-md-4 col-sm-12 btn btn-info" @click="viewAlbum(track.album.id)">
+                            Consulter l'album
+                        </button>
+                    </a>
+                    <a :href="'artist.html?id='+ track.artist.id">
+                        <button class="col-md-4 col-sm-12 btn" @click="viewArtist(track.artist.id)">
+                            Consulter la fiche <br>de l'artiste
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
+
     </div>
 
     
@@ -39,13 +52,6 @@
 
     <script src="./node_modules/vue/dist/vue.js"></script>
     <script src="main.js"></script>
-    <script>
-        var elemWidth = 0
-        document.querySelectorAll('.result-item').forEach(function(i){
-            console.log(i.offsetHeight);
-
-        })
-    </script>
 </body>
 
 </html>
