@@ -159,7 +159,13 @@ Vue.component('album-item', {
 
 Vue.component('artist-item', {
     template: `<div>
-                   {{artist}}
+                <div v-if="artist">
+                {{artist}}
+                </div>
+                <div v-else>
+                    <div class="loader"></div>
+                </div>
+                   
 
                </div>`,
     data() {
