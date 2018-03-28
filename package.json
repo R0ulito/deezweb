@@ -1,0 +1,19 @@
+{
+  "name": "deezweb",
+  "version": "1.0.0",
+  "description": "Projet front-end de l'école multimédia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "live-server"
+  },
+  "author": "r0ulito",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.3.1",
+    "live-server": "^1.2.0",
+    "materialize-css": "^0.100.2",
+    "vue": "^2.5.16"
+  }
+}

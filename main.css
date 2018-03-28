@@ -1,0 +1,39 @@
+[v-cloak] {
+    display: none;
+}
+
+body {
+    background-color: #EEE;
+}
+
+img.result-cover {
+    /* display: block; */
+    margin : 0 auto;
+    width: 100%;
+}
+img.track-cover {
+    display: inline-block;
+    width: 75%;
+}
+
+form button.btn {
+    border-radius: 15px;
+}
+.btn {
+    min-height: 50px;
+    padding: 5px;
+}
+
+form, .mt50{
+    margin-top: 50px;
+}
+.result-item {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.list-group-item {
+    min-height: 55px;
+}
+

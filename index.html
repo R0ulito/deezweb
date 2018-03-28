@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="main.css">
+    <title>Deez'web la star du ouaibe</title>
+</head>
+
+<body>
+
+    <div id="app" v-cloak class="container">
+        <navbar></navbar>        
+        <search-form></search-form>
+        <div v-if="queryResult.length > 0" class="row mt50">
+            <div v-for="track in queryResult" class="col-md-4 col-sm-6 result-item valign-item">
+                <ul class="list-group" style="margin-bottom:0">
+                    <li class="list-group-item" style="padding:0"><img class="result-cover" :src="track.album.cover_medium" alt=""></li>
+                    <li class="list-group-item">{{track.title}}</li>
+                    <li class="list-group-item">{{track.artist.name}} / {{track.album.title}}</li>
+                    <li class="list-group-item">{{track.duration | secToMin}}</li>
+                </ul>
+                    <div>
+                        <button class="col-md-4 col-sm-12 btn btn-success" @click="listenSong(track.preview)">
+                            <a :href="'track.html?id='+track.id">Écouter un <br> extrait</a>
+                        </button>
+                        <button class="col-md-4 col-sm-12 btn btn-info" @click="viewAlbum(track.album.id)">Consulter l'album</button>
+                        <button class="col-md-4 col-sm-12 btn" @click="viewArtist(track.artist.id)">Consulter la fiche <br>de l'artiste</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script src="main.js"></script>
+    <script>
+        var elemWidth = 0
+        document.querySelectorAll('.result-item').forEach(function(i){
+            console.log(i.offsetHeight);
+
+        })
+    </script>
+</body>
+
+</html>
