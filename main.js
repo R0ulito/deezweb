@@ -19,11 +19,11 @@ Vue.component('search-form', {
                     <div class="form-group">
                         <select class="form-control" name="order" id="order" v-model="queryOrder">
                             <option value="">Trier la recherche par...</option>
-                            <option value="&order​=ALBUM_ASC">Album</option>
-                            <option value="&​order​=ARTIST_ASC">Artiste</option>
-                            <option value="&​order​=TRACK_ASC">Musique</option>
-                            <option value="&​order​=RATING_ASC">Popularité</option>
-                            <option value="&order​=RANKING">Note</option>
+                            <option value="&order=ALBUM_ASC">Album</option>
+                            <option value="&order=ARTIST_ASC">Artiste</option>
+                            <option value="&order=TRACK_ASC">Musique</option>
+                            <option value="&order=RATING_ASC">Popularité</option>
+                            <option value="&order=RANKING">Note</option>
                         </select>
                     </div>
                     <button class="btn btn-block btn-info" type="submit" @click="getAPIResult">Rechercher</button>
@@ -31,7 +31,12 @@ Vue.component('search-form', {
     methods : {
         getAPIResult() {
             console.log(this.queryOrder)
-            // document.querySelector('.loader').style.display = "block";
+            var form = document.querySelector('form');
+            var group = document.querySelector('.result-group');
+            if(group === true) {
+                group.style.display = "none";
+            }
+            form.insertAdjacentHTML('afterend', '<div style="margin-top: 25vh" class="loader"</div>');
                 const fullSearch = this.searchUrl + this.queryString + this.queryOrder;
             console.log(fullSearch)
                 fetch(fullSearch)
@@ -41,9 +46,11 @@ Vue.component('search-form', {
                         this.processResults();
                     });
                 // this.search = '';
+
             },
             processResults() {
-                // console.log(this.$parent.queryResult);
+                document.querySelector('.loader').style.display = "none";
+                document.querySelector('.result-group').style.display = "block";
             }
         },
     mounted() {
@@ -53,12 +60,15 @@ Vue.component('search-form', {
 
 Vue.component('navbar', {
     template: `<nav class="nav navbar-inverse">
-        <ul class="nav navbar-nav">
-            <li><a href="#">Deezweb</a></li>
-            <li><a href="index.html">Recherche</a></li>
-            <li><a href="favorites.html">Mes Favoris</a></li>
-        </ul>
-    </nav>`
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="https://github.com/r0ulito/deezweb">Deezweb</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li></li>
+                        <li><a href="index.html">Recherche</a></li>
+                        <li><a href="favorites.html">Mes Favoris</a></li>
+                    </ul>
+               </nav>`
 })
 
 Vue.component('track-item', {
@@ -130,6 +140,23 @@ Vue.component('track-item', {
 Vue.component('album-item', {
     template : `<div>
                     <div v-if="album">
+                        <div class="col-xs-12 row">
+                            <h2>Album: {{album.title}}</h2>
+                        </div>
+                        <div class="col-xs-12 row">
+                            <h4>Artiste: <a :href="'artist.html?id=' + album.artist.id">{{album.artist.name}}</a></h4>
+                        </div>
+                        <div class="col-xs-12 row">
+                            <div class="col-xs-12 col-md-3">
+                                <img class="img-responsive" :src="album.cover_xl"/>
+                            </div>
+                            <div class="col-xs-12 col-md-9">
+                                <ul class="list-group">
+                                    <li class="text-muted list-group-item">Liste des tracks de cet album</li>
+                                    <li class="list-group-item" v-for="track, index in album.tracks.data">{{index +1}}: {{track.title}} ({{track.duration | secToMin}})</li>
+                                </ul>
+                            </div>
+                        </div>
                     {{album}}
                     </div>
                     <div v-else>
@@ -154,6 +181,13 @@ Vue.component('album-item', {
 
             });
 
+    },
+    filters : {
+        secToMin(int) {
+            var minutes = Math.floor(int / 60);
+            var seconds = int - minutes * 60;
+            return minutes + "m" + seconds + "s"
+        }
     }
 });
 

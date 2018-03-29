@@ -17,13 +17,13 @@
         <div class="container">
             <search-form></search-form>
         </div>
-        <div v-if="queryResult.length > 0" class="row mt50">
+        <div v-if="queryResult" class="row mt50 result-group">
             <div v-for="track in queryResult" class="col-md-4 col-sm-6 result-item valign-item">
                 <ul class="list-group" style="margin-bottom:0">
-                    <li class="list-group-item" style="padding:0"><img class="result-cover" :src="track.album.cover_medium" alt=""></li>
-                    <li class="list-group-item">{{track.title}}</li>
-                    <li class="list-group-item">{{track.artist.name}} / {{track.album.title}}</li>
-                    <li class="list-group-item">{{track.duration | secToMin}}</li>
+                    <li class="list-group-item group-item" style="padding:0"><img class="result-cover" :src="track.album.cover_medium" alt=""></li>
+                    <li class="list-group-item group-item">{{track.title}}</li>
+                    <li class="list-group-item group-item">{{track.artist.name}} / {{track.album.title}}</li>
+                    <li class="list-group-item group-item">{{track.duration | secToMin}}</li>
                 </ul>
                 <div>
                     <a :href="'track.html?id='+track.id">
