@@ -8,7 +8,8 @@ Vue.component('search-form', {
         return {
             queryString: '',
             queryOrder : '',
-            searchUrl : searchUrl
+            searchUrl: searchUrl,
+            loading: true
 
         }
     },
@@ -49,8 +50,12 @@ Vue.component('search-form', {
 
             },
             processResults() {
-                document.querySelector('.loader').style.display = "none";
-                document.querySelector('.result-group').style.display = "block";
+                var group = document.querySelector('.result-group');
+                console.log(group);
+                document.querySelector('.loader').remove();
+                if(group !== null) {
+                    group.style.display = "block";
+                }
             }
         },
     mounted() {
@@ -61,13 +66,20 @@ Vue.component('search-form', {
 Vue.component('navbar', {
     template: `<nav class="nav navbar-inverse">
                     <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> 
+                    </button>
                         <a class="navbar-brand" href="https://github.com/r0ulito/deezweb">Deezweb</a>
                     </div>
-                    <ul class="nav navbar-nav">
-                        <li></li>
-                        <li><a href="index.html">Recherche</a></li>
-                        <li><a href="favorites.html">Mes Favoris</a></li>
-                    </ul>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li></li>
+                            <li><a href="index.html">Recherche</a></li>
+                            <li><a href="favorites.html">Mes Favoris</a></li>
+                        </ul>
+                    </div>
                </nav>`
 })
 
@@ -147,14 +159,27 @@ Vue.component('album-item', {
                             <h4>Artiste: <a :href="'artist.html?id=' + album.artist.id">{{album.artist.name}}</a></h4>
                         </div>
                         <div class="col-xs-12 row">
-                            <div class="col-xs-12 col-md-3">
+                            <div class="col-xs-12 col-md-4">
                                 <img class="img-responsive" :src="album.cover_xl"/>
                             </div>
-                            <div class="col-xs-12 col-md-9">
-                                <ul class="list-group">
-                                    <li class="text-muted list-group-item">Liste des tracks de cet album</li>
-                                    <li class="list-group-item" v-for="track, index in album.tracks.data">{{index +1}}: {{track.title}} ({{track.duration | secToMin}})</li>
-                                </ul>
+                            <div class="col-xs-12 col-md-8">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Titre</th>
+                                            <th>Durée</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="track, index in album.tracks.data">
+                                            <th scope="row">{{index +1}}</th>
+                                            <td>{{track.title}}</td>
+                                            <td>{{track.duration | secToMin}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     {{album}}
