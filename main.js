@@ -165,6 +165,8 @@ Vue.component('album-item', {
                         <div class="col-xs-12 row">
                             <div class="col-xs-12 col-md-4">
                                 <img class="img-responsive" :src="album.cover_xl"/>
+                                <img v-if="album.explicit_lyrics" class="img-responsive" src="assets/img/explicit.png" alt="">
+                                <a :href="album.link"><button class="btn btn-primary mt50">Voir l'album sur Deezer</button></a>
                             </div>
                             <div class="col-xs-12 col-md-8">
                                 <table class="table table-hover">
@@ -186,7 +188,11 @@ Vue.component('album-item', {
                                 </table>
                             </div>
                         </div>
-                    <!--{{album}}-->
+                        
+                        <div class="row">
+                        
+                        </div>
+               
                     </div>
                     <div v-else>
                         <div class="loader"></div>
@@ -206,7 +212,7 @@ Vue.component('album-item', {
             .then(data => {
                 this.album = data;
 
-                console.log(this.track)
+                console.log(this.album)
 
             });
 
