@@ -125,7 +125,11 @@ Vue.component('track-item', {
         secToMin(int) {
             var minutes = Math.floor(int / 60);
             var seconds = int - minutes * 60;
-            return minutes + "m" + seconds + "s"
+            seconds < 10 ? seconds = "0" + seconds : seconds = seconds;
+            if (minutes === 0) {
+                return seconds + "s";
+            }
+            return minutes + ":" + seconds
         },
         dateFilter(date) {
             var formattedDate = new Date(date)
@@ -172,7 +176,7 @@ Vue.component('album-item', {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="track, index in album.tracks.data">
+                                        <tr @click="goTotrack(track.id)" v-for="track, index in album.tracks.data">
                                             <th scope="row">{{index +1}}</th>
                                             <td>{{track.title}}</td>
                                             <td>{{track.duration | secToMin}}</td>
@@ -182,7 +186,7 @@ Vue.component('album-item', {
                                 </table>
                             </div>
                         </div>
-                    {{album}}
+                    <!--{{album}}-->
                     </div>
                     <div v-else>
                         <div class="loader"></div>
@@ -211,7 +215,17 @@ Vue.component('album-item', {
         secToMin(int) {
             var minutes = Math.floor(int / 60);
             var seconds = int - minutes * 60;
-            return minutes + "m" + seconds + "s"
+            seconds < 10 ? seconds = "0" + seconds : seconds = seconds;
+            if (minutes === 0) {
+                return seconds + "s";
+            }
+            return minutes + ":" + seconds
+        }
+    },
+    methods : {
+        goTotrack(id) {
+            document.location.href = "track.html?id=" + id;
+            // console.log(id);
         }
     }
 });
@@ -278,7 +292,11 @@ new Vue({
         secToMin(int) {
             var minutes = Math.floor(int / 60);
             var seconds = int - minutes * 60;
-            return minutes +"m" + seconds + "s"
+            seconds < 10 ? seconds = "0" + seconds : seconds = seconds;
+            if (minutes === 0) {
+                return seconds + "s";
+            }
+            return minutes + ":" + seconds
         },
         capitalize(str) {
             return str.toUpperCase()
