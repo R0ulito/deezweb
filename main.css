@@ -1,6 +1,10 @@
 [v-cloak] {
     display: none;
 }
+
+body {
+    padding-top: 50px;
+}
 .loader {
     margin:50vh auto;
     /*margin-top: 30px;*/

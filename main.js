@@ -64,7 +64,7 @@ Vue.component('search-form', {
     })
 
 Vue.component('navbar', {
-    template: `<nav class="nav navbar-inverse">
+    template: `<nav class="nav navbar-inverse navbar-fixed-top">
                     <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                         <span class="icon-bar"></span>
@@ -87,19 +87,20 @@ Vue.component('track-item', {
     template: `<div>
                     
                     <div v-if="track" class="col-xs-12">
-                        <div class="col-xs-12 row">
-                            <h2>Titre: {{track.title}}</h2>
-                        </div>
-                        <div class="col-xs-12 row">
-                            <div class="col-xs-6">
-                                <img :src="track.album.cover_small" alt=""> Album : <a :href="'album.html?id=' + track.album.id">{{track.album.title}}</a>
-                            </div>
-                            <div class="col-xs-6">
-                                <img :src="track.artist.picture_small" alt=""> Artiste : <a :href="'artist.html?id=' + track.artist.id">{{track.artist.name}}</a>
-                            </div>
-                        </div>
-                        <div class="row col-xs-12">
+                        <div class="col-xs-12 row text-center">
                             <h2>{{track.title}}</h2>
+                        </div>
+                        <div class="col-xs-12 row">
+                            <div class="col-xs-6">
+                                <img class="img-responsive" :src="track.album.cover_big" alt=""><h3> Album : <a :href="'album.html?id=' + track.album.id">{{track.album.title}}</a></h3>
+                            </div>
+                            <div class="col-xs-6">
+                                <img class="img-responsive" :src="track.artist.picture_big" alt=""><h3><a :href="'artist.html?id=' + track.artist.id">{{track.artist.name}}</a></h3>
+                            </div>
+                        </div>
+                      
+                        <div class="row col-xs-12 mt50">
+                            <h5>{{track.title}}</h5>
                             <div>Durée: {{track.duration | secToMin}} / Date de parution: {{track.release_date | dateFilter }}</div>
                         </div>
                         <div class="row col-xs-12">
@@ -166,9 +167,9 @@ Vue.component('album-item', {
                             <div class="col-xs-12 col-md-4">
                                 <img class="img-responsive" :src="album.cover_xl"/>
                                 <img v-if="album.explicit_lyrics" class="img-responsive" src="assets/img/explicit.png" alt="">
-                                <a :href="album.link"><button class="btn btn-primary mt50">Voir l'album sur Deezer</button></a>
+                                <a :href="album.link"><button class="btn btn-primary">Voir l'album sur Deezer</button></a>
                             </div>
-                            <div class="col-xs-12 col-md-8">
+                            <div class="col-xs-12 col-md-8 mt50">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -187,12 +188,7 @@ Vue.component('album-item', {
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        
-                        <div class="row">
-                        
-                        </div>
-               
+                        </div>               
                     </div>
                     <div v-else>
                         <div class="loader"></div>
@@ -238,12 +234,17 @@ Vue.component('album-item', {
 
 Vue.component('artist-item', {
     template: `<div>
-                <div v-if="artist">
-                {{artist}}
-                </div>
-                <div v-else>
-                    <div class="loader"></div>
-                </div>
+                    <div v-if="artist" class="text-center">
+                        <h2 class="text-center">{{artist.name}}</h2>
+                        <img :src="artist.picture_big" class="img-responsive center-block" alt="">
+                        <h4>Nombre d'albums: {{artist.nb_album}}</h4>
+                        <h4>Nombre de fans: {{artist.nb_fan | fanFilter}}</h4>
+                        <a :href="artist.link"><button class="col-xs-4 col-xs-offset-4 btn btn-primary">Voir l'artiste sur Deezer</button></a>
+                                        
+                    </div>
+                    <div v-else>
+                        <div class="loader"></div>
+                    </div>
                    
 
                </div>`,
@@ -251,6 +252,15 @@ Vue.component('artist-item', {
         return {
             id : document.location.search.split('=')[1],
             artist : ''
+        }
+    },
+    filters : {
+        fanFilter(int) {
+            if(int > 1000000) {
+                var text = parseFloat(int / 1000000).toString().substr(0,4).replace(/\./g, ',') + "M";
+                return text
+            }
+            return int
         }
     },
     mounted() {
