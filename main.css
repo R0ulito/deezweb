@@ -47,6 +47,9 @@ form button.btn {
 form, .mt50{
     margin-top: 50px;
 }
+.mb50 {
+    margin-bottom: 50px;
+}
 .result-item {
     font-size: 14px;
     text-align: center;

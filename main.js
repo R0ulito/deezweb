@@ -104,9 +104,13 @@ Vue.component('track-item', {
                             <div>Durée: {{track.duration | secToMin}} / Date de parution: {{track.release_date | dateFilter }}</div>
                         </div>
                         <div class="row col-xs-12">
-                            <audio controls>
+                            <audio class="col-xs-12" controls>
                                 <source :src="track.preview" type="audio/mpeg">                
                             </audio>
+                        </div>
+                        <div class="row col-xs-12 mt50 mb50">
+                            <a :href="track.link"><button class="col-xs-3 btn btn-primary">Voir le titre sur Deezer</button></a>
+                            <button @click="addToFavorites(track.id)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Ajouter aux favoris</button>                           
                         </div>        
                     </div>
                     <div v-else>
@@ -120,6 +124,11 @@ Vue.component('track-item', {
             track : '',
             artist : '',
             title : ''
+        }
+    },
+    methods : {
+        addToFavorites(id) {
+            console.log(id);
         }
     },
     filters : {
