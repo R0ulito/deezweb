@@ -9,7 +9,7 @@ Vue.component('search-form', {
             queryString: '',
             queryOrder : '',
             searchUrl: searchUrl,
-            loading: true
+            loading: false
 
         }
     },
@@ -76,8 +76,8 @@ Vue.component('navbar', {
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
                             <li></li>
-                            <li><a href="index.html">Recherche</a></li>
-                            <li><a href="favorites.html">Mes Favoris</a></li>
+                            <li><a href="../../index.html">Recherche</a></li>
+                            <li><a href="../../favorites.html">Mes Favoris</a></li>
                         </ul>
                     </div>
                </nav>`
@@ -175,7 +175,7 @@ Vue.component('album-item', {
                         <div class="col-xs-12 row">
                             <div class="col-xs-12 col-md-4">
                                 <img class="img-responsive" :src="album.cover_xl"/>
-                                <img v-if="album.explicit_lyrics" class="img-responsive" src="assets/img/explicit.png" alt="">
+                                <img v-if="album.explicit_lyrics" class="img-responsive" src="../img/explicit.png" alt="">
                                 <a :href="album.link"><button class="btn btn-primary">Voir l'album sur Deezer</button></a>
                             </div>
                             <div class="col-xs-12 col-md-8 mt50">
