@@ -84,7 +84,6 @@ Vue.component('navbar', {
                         </div>
                    </nav>
                </div>`
->>>>>>> d973681255a910b5ba53dbab6f8c38d3c6bc2006:main.js
 })
 
 Vue.component('track-item', {
