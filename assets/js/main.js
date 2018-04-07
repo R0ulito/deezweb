@@ -64,23 +64,27 @@ Vue.component('search-form', {
     })
 
 Vue.component('navbar', {
-    template: `<nav class="nav navbar-inverse navbar-fixed-top">
-                    <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span> 
-                    </button>
-                        <a class="navbar-brand" href="https://github.com/r0ulito/deezweb">Deezweb</a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav">
-                            <li></li>
-                            <li><a href="../../index.html">Recherche</a></li>
-                            <li><a href="../../favorites.html">Mes Favoris</a></li>
-                        </ul>
-                    </div>
-               </nav>`
+    template: `<div>
+                   <header class="col-xs-12 text-center padding0"><img class="img-responsive" src="assets/img/deezweb_banner.png" alt=""></header>   
+                   <nav class="nav navbar-inverse navbar-fixed-top">
+                        <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span> 
+                        </button>
+                            <a class="navbar-brand" href="https://github.com/r0ulito/deezweb">Deezweb</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav">
+                                <li></li>
+                                <li><a href="index.html">Recherche</a></li>
+                                <li><a href="favorites.html">Mes Favoris</a></li>
+                            </ul>
+                        </div>
+                   </nav>
+               </div>`
+>>>>>>> d973681255a910b5ba53dbab6f8c38d3c6bc2006:main.js
 })
 
 Vue.component('track-item', {
