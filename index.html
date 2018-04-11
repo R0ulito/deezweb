@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="assets/img/favicon.png" sizes="196x196">
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <title>Deez'web la star du ouaibe</title>
@@ -23,7 +24,7 @@
         <div v-if="queryResult" class="row mt50 result-group">
             <div v-for="track in queryResult" class="col-md-4 col-sm-6 result-item valign-item">
                 <ul class="list-group" style="margin-bottom:0">
-                    <li class="list-group-item group-item" style="padding:0"><img class="result-cover" :src="track.album.cover_medium" alt=""></li>
+                    <li class="list-group-item group-item" style="padding:0"><img class="result-cover" :src="track.album.cover_medium" alt=""><i @click="addFav(track.id)" class="favorite far fa-heart"></i></li>
                     <li class="list-group-item group-item">{{track.title}}</li>
                     <li class="list-group-item group-item">{{track.artist.name}} / {{track.album.title}}</li>
                     <li class="list-group-item group-item">{{track.duration | secToMin}}</li>

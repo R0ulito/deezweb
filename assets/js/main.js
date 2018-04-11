@@ -13,7 +13,7 @@ Vue.component('search-form', {
 
         }
     },
-    template: `<form @submit.prevent>
+    template: `<form @submit.prevent class="row">
                     <div class="form-group">
                         <input class="form-control" type="text" name="query" id="query" v-model.lazy="queryString" placeholder="Tapez le nom d'un artiste, d'un album, d'un titre">
                     </div>
@@ -64,7 +64,7 @@ Vue.component('search-form', {
     })
 
 Vue.component('navbar', {
-    template: `<div>
+    template: `<div class="row">
                    <header class="col-xs-12 text-center padding0"><img class="img-responsive" src="assets/img/deezweb_banner.png" alt=""></header>   
                    <nav class="nav navbar-inverse navbar-fixed-top">
                         <div class="navbar-header">
@@ -306,6 +306,9 @@ new Vue({
         },
         listenSong(songId) {
             console.log(songId);
+        },
+        addFav(id) {
+            console.log(id);
         }
     },
     filters : {

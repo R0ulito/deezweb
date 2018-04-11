@@ -7,6 +7,20 @@
     padding-right: 0;
 }
 
+.favorite {
+    position: absolute;
+    left: 10px;
+    bottom: 25px;
+    font-size: 3em;
+    color: white;
+}
+
+header {
+    margin-bottom: 25px;
+    padding-right: -15px;
+    padding-left: -15px;
+}
+
 body {
     padding-top: 50px;
 }
@@ -35,6 +49,7 @@ img.result-cover {
     /* display: block; */
     margin : 0 auto;
     width: 100%;
+    position: relative;
 }
 img.track-cover {
     display: inline-block;
