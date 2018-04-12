@@ -108,7 +108,7 @@ Vue.component('track-item', {
                             <h5>{{track.title}}</h5>
                             <div>Durée: {{track.duration | secToMin}} / Date de parution: {{track.release_date | dateFilter }}</div>
                         </div>
-                        <div class="row col-xs-12">
+                        <div class="row col-xs-12 mt50">
                             <audio class="col-xs-12" controls>
                                 <source :src="track.preview" type="audio/mpeg">                
                             </audio>
