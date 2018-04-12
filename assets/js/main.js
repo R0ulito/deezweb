@@ -88,6 +88,7 @@ Vue.component('navbar', {
 })
 
 Vue.component('track-item', {
+    props : ["data-id"],
     template: `<div>
                     
                     <div v-if="track" class="col-xs-12">
@@ -114,7 +115,8 @@ Vue.component('track-item', {
                         </div>
                         <div class="row col-xs-12 mt50 mb50">
                             <a :href="track.link"><button class="col-xs-3 btn btn-primary">Voir le titre sur Deezer</button></a>
-                            <button @click="addToFavorites(track.id)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Ajouter aux favoris</button>                           
+                            <button v-if="ids.indexOf(track.id) === -1" @click="addToFavorites(track.id)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Ajouter aux favoris</button>                           
+                            <button v-else @click="removeFromFavorites(track.id)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Retirer des favoris</button>
                         </div>        
                     </div>
                     <div v-else>
@@ -127,12 +129,16 @@ Vue.component('track-item', {
             id : document.location.search.split('=')[1],
             track : '',
             artist : '',
-            title : ''
+            title : '',
+            ids : this.$parent.ids
         }
     },
     methods : {
         addToFavorites(id) {
-            console.log(id);
+            this.$emit('addfav');
+        },
+        removeFromFavorites(id) {
+            this.$emit('removefav');
         }
     },
     filters : {
@@ -179,7 +185,7 @@ Vue.component('album-item', {
                         <div class="col-xs-12 row">
                             <div class="col-xs-12 col-md-4">
                                 <img class="img-responsive" :src="album.cover_xl"/>
-                                <img v-if="album.explicit_lyrics" class="img-responsive" src="../img/explicit.png" alt="">
+                                <img v-if="album.explicit_lyrics" class="img-responsive" src="../assets/img/explicit.png" alt="">
                                 <a :href="album.link"><button class="btn btn-primary">Voir l'album sur Deezer</button></a>
                             </div>
                             <div class="col-xs-12 col-md-8 mt50">
@@ -340,8 +346,17 @@ new Vue({
             if (localStorage["favorites"]) {
                 console.log("key exists")
                 var favLength = JSON.parse(localStorage["favorites"]).length
-                var favorites = JSON.parse((localStorage["favorites"]));
+                var favorites = JSON.parse(localStorage["favorites"]);
+                var favIdLength = JSON.parse(localStorage['ids']).length;
+                var favIds = JSON.parse(localStorage['ids']);
+
                 console.log(favorites)
+                for (var i = 0; i < favIdLength; i += 1) {
+                    if (favIds[i] === id) {
+                        return
+                    }
+                }
+
                 for (var i = 0; i < favLength; i += 1) {
                     if (favorites[i]['id'] === id) {
                         return
@@ -360,19 +375,24 @@ new Vue({
                 artist : '',
                 title : ''
             };
-            console.log(localStorage["favorites"]);
+            // console.log(localStorage["favorites"]);
 
         },
         removeFav(id) {
-            favLength = localStorage["ids"].length;
-            favorites = JSON.parse(localStorage["ids"]);
-            for (var i = 0; i < favLength; i += 1) {
-                console.log(favorites.indexOf(localStorage["ids"][i]))
+            favIdLength = localStorage["ids"].length;
+            favorites = JSON.parse(localStorage["favorites"]);
+            var idIndex = this.ids.indexOf(id);
+            var favIndex;
+            for (var i = 0; i < favorites.length; i += 1) {
+                if(favorites[i]['id'] === id) {
+                    favIndex = i;
+                }
             }
-            var index = this.ids.indexOf(id);
-            this.ids.splice(index, 1);
+            this.favorites.splice(favIndex, 1)
+            this.ids.splice(idIndex, 1);
             localStorage.setItem("ids", JSON.stringify(this.ids));
-            console.log(localStorage["ids"]);
+            localStorage.setItem('favorites', JSON.stringify(this.favorites));
+            // console.log(localStorage["ids"]);
         }
     },
     filters : {
@@ -398,8 +418,8 @@ new Vue({
     }
 },
     created: function() {
-        this.favorites = JSON.parse(localStorage.getItem('favorites') || null) || [];
-        this.ids = JSON.parse(localStorage.getItem('ids') || null) || [];
+        this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        this.ids = JSON.parse(localStorage.getItem('ids')) || [];
     }
 });
 
