@@ -16,7 +16,11 @@
 <div id="app" v-cloak class="container-fluid">
     <navbar></navbar>
     <div class="container">
-            <favorite-item v-for="favorite in favorites" :favorite="favorite"></favorite-item>
+            <div v-if="favorites.length > 0">
+                <favorite-item v-for="favorite in favorites" :title="favorite.title" :artist="favorite.artist" :id="favorite.id"></favorite-item>
+            </div>
+
+            <div v-else>Vous n'avez pas encore ajouté de favoris</div>
     </div>
 </div>
 

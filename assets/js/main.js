@@ -305,12 +305,20 @@ Vue.component('artist-item', {
 Vue.component('favorite-item', {
     props: ["id", "artist", "title"],
     template : `<div>
-                    {{favorite}}
+                    <div @click="showTrack(id)">
+                        {{title}} / {{artist}}
+                    </div>
                 </div>`,
     data() {
         return {
             // favorites : this.favorites
         }
+    },
+    methods : {
+      showTrack(id) {
+          console.log(id);
+          location.href = "track.html?id=" + id;
+      }
     },
     mounted: function() {
         console.log(this.favorite);
