@@ -31,7 +31,8 @@ Vue.component('search-form', {
                </form>`,
     methods : {
         getAPIResult() {
-            console.log(this.queryOrder)
+            this.$parent.queryResult = '';
+            console.log(this.queryOrder);
             var form = document.querySelector('form');
             var group = document.querySelector('.result-group');
             if(group === true) {
@@ -288,13 +289,37 @@ Vue.component('artist-item', {
             });
 
     }
+});
+
+Vue.component('favorite-item', {
+    props: ["id", "artist", "title"],
+    template : `<div>
+                    {{favorite}}
+                </div>`,
+    data() {
+        return {
+            // favorites : this.favorites
+        }
+    },
+    mounted: function() {
+        console.log(this.favorite);
+    }
 })
 
 new Vue({
     el : "#app",
     data : {
-        msg : "wesh",
-        queryResult : ''
+        favorites : [],
+        newFav : {
+            id : '',
+            artist : '',
+            title : ''
+        },
+        queryResult : '',
+        ids : []
+    },
+    computed : {
+
     },
     methods : {
         viewAlbum(albumId) {
@@ -307,8 +332,47 @@ new Vue({
         listenSong(songId) {
             console.log(songId);
         },
-        addFav(id) {
-            console.log(id);
+        addFav(id, artist, title) {
+            console.log(artist, title)
+            this.newFav.id = id;
+            this.newFav.artist = artist;
+            this.newFav.title = title;
+            if (localStorage["favorites"]) {
+                console.log("key exists")
+                var favLength = JSON.parse(localStorage["favorites"]).length
+                var favorites = JSON.parse((localStorage["favorites"]));
+                console.log(favorites)
+                for (var i = 0; i < favLength; i += 1) {
+                    if (favorites[i]['id'] === id) {
+                        return
+                    }
+                }
+                this.favorites.push(this.newFav);
+            } else {
+                console.log("key does not exist")
+                this.favorites.push(this.newFav);
+            }
+            this.ids.push(id);
+            localStorage.setItem('ids', JSON.stringify(this.ids));
+            localStorage.setItem("favorites", JSON.stringify(this.favorites));
+            this.newFav = {
+                id : '',
+                artist : '',
+                title : ''
+            };
+            console.log(localStorage["favorites"]);
+
+        },
+        removeFav(id) {
+            favLength = localStorage["ids"].length;
+            favorites = JSON.parse(localStorage["ids"]);
+            for (var i = 0; i < favLength; i += 1) {
+                console.log(favorites.indexOf(localStorage["ids"][i]))
+            }
+            var index = this.ids.indexOf(id);
+            this.ids.splice(index, 1);
+            localStorage.setItem("ids", JSON.stringify(this.ids));
+            console.log(localStorage["ids"]);
         }
     },
     filters : {
@@ -332,6 +396,10 @@ new Vue({
         capitalize(str) {
             return str.toUpperCase()
     }
-}
+},
+    created: function() {
+        this.favorites = JSON.parse(localStorage.getItem('favorites') || null) || [];
+        this.ids = JSON.parse(localStorage.getItem('ids') || null) || [];
+    }
 });
 

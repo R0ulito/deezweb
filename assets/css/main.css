@@ -8,11 +8,23 @@
 }
 
 .favorite {
+    color: white;
+    background-color: rgba(80, 80, 80, 0.9);
+}
+
+.favorized {
+    color : red;
+    /*background-color: rgba(185, 185, 185, 0.9);*/
+}
+
+.favorite, .favorized {
     position: absolute;
     left: 10px;
     bottom: 25px;
     font-size: 3em;
-    color: white;
+
+    padding: 4px;
+    border-radius: 5px;
 }
 
 header {
@@ -62,6 +74,7 @@ form button.btn {
 .btn {
     min-height: 60px;
     padding: 5px;
+    margin-top: 5px;
 }
 
 form, .mt50{
