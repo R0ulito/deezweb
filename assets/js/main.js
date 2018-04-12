@@ -115,7 +115,7 @@ Vue.component('track-item', {
                         </div>
                         <div class="row col-xs-12 mt50 mb50">
                             <a :href="track.link"><button class="col-xs-3 btn btn-primary">Voir le titre sur Deezer</button></a>
-                            <button v-if="ids.indexOf(track.id) === -1" @click="addToFavorites(track.id)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Ajouter aux favoris</button>                           
+                            <button v-if="ids.indexOf(track.id) === -1" @click="addToFavorites(track.id, track.artist.name, track.title)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Ajouter aux favoris</button>                           
                             <button v-else @click="removeFromFavorites(track.id)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Retirer des favoris</button>
                         </div>        
                     </div>
@@ -130,15 +130,18 @@ Vue.component('track-item', {
             track : '',
             artist : '',
             title : '',
-            ids : this.$parent.ids
+            ids : null
         }
     },
     methods : {
-        addToFavorites(id) {
-            this.$emit('addfav');
+        addToFavorites(id, artist, title) {
+            this.ids.push(id);
+            this.$emit('addfav', id, artist, title);
         },
         removeFromFavorites(id) {
-            this.$emit('removefav');
+            var index = this.ids.indexOf(id);
+            this.ids.splice(index,1);
+            this.$emit('removefav', id);
         }
     },
     filters : {
@@ -156,8 +159,7 @@ Vue.component('track-item', {
             return formattedDate.toLocaleDateString()
         }
     },
-    mounted () {
-        
+    mounted : function() {
         const fullSearch = trackUrl + this.id;
         console.log(fullSearch)
         fetch(fullSearch)
@@ -170,6 +172,9 @@ Vue.component('track-item', {
             });
         // document.querySelector('.loader').classList.add('hidden');
 
+    },
+    created : function () {
+        this.ids = JSON.parse(localStorage.getItem('ids')) || [];
     }
 });
 
