@@ -120,6 +120,7 @@ Vue.component('track-item', {
                         </div>        
                     </div>
                     <div v-else>
+                        {{error}}
                         <div class="loader"></div>
                     </div>
                </div>
@@ -130,7 +131,8 @@ Vue.component('track-item', {
             track : '',
             artist : '',
             title : '',
-            ids : null
+            ids : null,
+            error : ''
         }
     },
     methods : {
@@ -160,16 +162,21 @@ Vue.component('track-item', {
         }
     },
     mounted : function() {
-        const fullSearch = trackUrl + this.id;
-        console.log(fullSearch)
-        fetch(fullSearch)
-            .then(data => data.json())
-            .then(data => {
-                this.track = data;
-                
-                console.log(this.track)
+        if (document.location.search.indexOf('?id=') >= 0 && document.location.search.split('=')[1].length > 0 && isNaN(document.location.search.split('=')[1]) === false) {
+            const fullSearch = trackUrl + this.id;
+            console.log(fullSearch)
+            fetch(fullSearch)
+                .then(data => data.json())
+                .then(data => {
+                    this.track = data;
 
-            });
+                    console.log(this.track)
+
+                });
+        } else {
+            document.querySelector('.loader').style.display = "none";
+            this.error = 'La page demandée ne peut pas s\'afficher: un idendifiant est attendu'
+        }
         // document.querySelector('.loader').classList.add('hidden');
 
     },
@@ -216,25 +223,34 @@ Vue.component('album-item', {
                     </div>
                     <div v-else>
                         <div class="loader"></div>
+                        {{error}}
                     </div>                    
                 </div>`,
     data() {
         return {
             id : document.location.search.split('=')[1],
-            album : ''
+            album : '',
+            error : ''
         }
     },
     mounted() {
-        const fullSearch = albumUrl + this.id;
-        console.log(fullSearch)
-        fetch(fullSearch)
-            .then(data => data.json())
-            .then(data => {
-                this.album = data;
+        if (document.location.search.indexOf('?id=') >= 0 && document.location.search.split('=')[1].length > 0 && isNaN(document.location.search.split('=')[1]) === false) {
+            console.log(this.id);
+            const fullSearch = albumUrl + this.id;
+            console.log(fullSearch)
+            fetch(fullSearch)
+                .then(data => data.json())
+                .then(data => {
+                    this.album = data;
 
-                console.log(this.album)
+                    console.log(this.album)
 
-            });
+                });
+        } else {
+            document.querySelector(".loader").style.display = "none"
+            this.error = `La page demandée ne peut pas s\'afficher: un idendifiant est attendu`
+        }
+
 
     },
     filters : {
@@ -267,6 +283,7 @@ Vue.component('artist-item', {
                                         
                     </div>
                     <div v-else>
+                    {{error}}
                         <div class="loader"></div>
                     </div>
                    
@@ -275,7 +292,8 @@ Vue.component('artist-item', {
     data() {
         return {
             id : document.location.search.split('=')[1],
-            artist : ''
+            artist : '',
+            error : ''
         }
     },
     filters : {
@@ -288,16 +306,21 @@ Vue.component('artist-item', {
         }
     },
     mounted() {
-        const fullSearch = artistUrl + this.id;
-        console.log(fullSearch)
-        fetch(fullSearch)
-            .then(data => data.json())
-            .then(data => {
-                this.artist = data;
+        if (document.location.search.indexOf('?id=') >= 0 && document.location.search.split('=')[1].length > 0 && isNaN(document.location.search.split('=')[1]) === false) {
+            const fullSearch = trackUrl + this.id;
+            console.log(fullSearch)
+            fetch(fullSearch)
+                .then(data => data.json())
+                .then(data => {
+                    this.track = data;
 
-                console.log(this.artist)
+                    console.log(this.track)
 
-            });
+                });
+        } else {
+            document.querySelector('.loader').style.display = "none";
+            this.error = 'La page demandée ne peut pas s\'afficher: un idendifiant est attendu'
+        }
 
     }
 });
