@@ -115,7 +115,7 @@ Vue.component('track-item', {
                         </div>
                         <div class="row col-xs-12 mt50 mb50">
                             <a :href="track.link"><button class="col-xs-3 btn btn-primary">Voir le titre sur Deezer</button></a>
-                            <button v-if="ids.indexOf(track.id) === -1" @click="addToFavorites(track.id, track.artist.name, track.title)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Ajouter aux favoris</button>                           
+                            <button v-if="ids.indexOf(track.id) === -1" @click="addToFavorites(track.id, track.artist.name, track.title, track.album.title)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Ajouter aux favoris</button>                           
                             <button v-else @click="removeFromFavorites(track.id)" class=" col-xs-3 col-xs-offset-6 btn btn-danger">Retirer des favoris</button>
                         </div>        
                     </div>
@@ -134,9 +134,9 @@ Vue.component('track-item', {
         }
     },
     methods : {
-        addToFavorites(id, artist, title) {
+        addToFavorites(id, artist, title, album) {
             this.ids.push(id);
-            this.$emit('addfav', id, artist, title);
+            this.$emit('addfav', id, artist, title, album);
         },
         removeFromFavorites(id) {
             var index = this.ids.indexOf(id);
@@ -303,25 +303,33 @@ Vue.component('artist-item', {
 });
 
 Vue.component('favorite-item', {
-    props: ["id", "artist", "title"],
-    template : `<div>
-                    <div @click="showTrack(id)">
-                        {{title}} / {{artist}}
+    props: ["id", "artist", "title", "album"],
+    template : `<div >                   
+                    <div class="favorite-item">
+                        <i class="pull-left favorite-item-heart fas fa-heart"></i>
+                        <span class="col-xs-6" @click="showTrack(id)">{{title}}  ({{artist}} / {{album}})</span>
+                    <i @click="removeFromFavorites(id)" class="favorite-item-trash fas fa-trash-alt" title="Enlever des favoris"></i>                      
                     </div>
                 </div>`,
     data() {
         return {
-            // favorites : this.favorites
+            ids : null,
+
         }
     },
     methods : {
       showTrack(id) {
           console.log(id);
           location.href = "track.html?id=" + id;
-      }
+      },
+        removeFromFavorites(id) {
+            var index = this.ids.indexOf(id);
+            this.ids.splice(index,1);
+            this.$emit('removefav', id);
+        }
     },
-    mounted: function() {
-        console.log(this.favorite);
+    created: function() {
+        this.ids = JSON.parse(localStorage.getItem("ids"))  || []
     }
 })
 
@@ -332,7 +340,8 @@ new Vue({
         newFav : {
             id : '',
             artist : '',
-            title : ''
+            title : '',
+            album : ''
         },
         queryResult : '',
         ids : []
@@ -351,11 +360,12 @@ new Vue({
         listenSong(songId) {
             console.log(songId);
         },
-        addFav(id, artist, title) {
+        addFav(id, artist, title, album) {
             console.log(artist, title)
             this.newFav.id = id;
             this.newFav.artist = artist;
             this.newFav.title = title;
+            this.newFav.album = album;
             if (localStorage["favorites"]) {
                 console.log("key exists")
                 var favLength = JSON.parse(localStorage["favorites"]).length
@@ -386,7 +396,8 @@ new Vue({
             this.newFav = {
                 id : '',
                 artist : '',
-                title : ''
+                title : '',
+                album : ''
             };
             // console.log(localStorage["favorites"]);
 

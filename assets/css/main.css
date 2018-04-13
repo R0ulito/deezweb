@@ -17,6 +17,25 @@
     /*background-color: rgba(185, 185, 185, 0.9);*/
 }
 
+.favorite-item {
+    margin : 15px 0 25px 0;
+    cursor:pointer;
+}
+
+.favorite-item-heart {
+    vertical-align: middle;
+    color:red;
+    font-size: 2em;
+    margin-right: 15px;
+}
+
+.favorite-item-trash {
+    vertical-align: middle;
+    color : #363636;
+    font-size: 2em;
+    margin-left: 25px;
+}
+
 .favorite, .favorized {
     position: absolute;
     left: 10px;

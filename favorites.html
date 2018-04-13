@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="assets/img/favicon.png" sizes="196x196">
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
 </head>
@@ -16,8 +17,9 @@
 <div id="app" v-cloak class="container-fluid">
     <navbar></navbar>
     <div class="container">
-            <div v-if="favorites.length > 0">
-                <favorite-item v-for="favorite in favorites" :title="favorite.title" :artist="favorite.artist" :id="favorite.id"></favorite-item>
+            <div v-if="favorites.length > 0" >
+                <h2 style="margin-bottom: 50px">Mes titres favoris</h2>
+                <favorite-item @removefav="removeFav" v-for="favorite in favorites" :album="favorite.album" :title="favorite.title" :artist="favorite.artist" :id="favorite.id"></favorite-item>
             </div>
 
             <div v-else>Vous n'avez pas encore ajouté de favoris</div>
